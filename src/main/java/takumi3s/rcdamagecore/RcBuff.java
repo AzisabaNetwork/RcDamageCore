@@ -70,7 +70,7 @@ public class RcBuff implements ISkillMechanic, ITargetedEntitySkill {
             }
 
             Bukkit.getScheduler().runTaskLater(RcDamageCore.getInstance(), () -> {
-                Map<String, Integer> map1 = isDefind(uuid, type);
+                Map<String, Integer> map1 = isDefined(uuid, type);
                 if (map1 != null) {
                     map1.put(type, map1.get(type) - amount);
                     if (map1.get(type) <= 0) {
@@ -85,7 +85,7 @@ public class RcBuff implements ISkillMechanic, ITargetedEntitySkill {
         return SkillResult.SUCCESS;
     }
 
-    public Map<String, Integer> isDefind(UUID uuid, String type) {
+    public Map<String, Integer> isDefined(UUID uuid, String type) {
         if (map.containsKey(uuid)) {
             if (map.get(uuid).containsKey(type)) {
                 return map.get(uuid);
