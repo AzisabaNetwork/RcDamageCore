@@ -1,4 +1,4 @@
-package takumi3s.rc_damage_math;
+package takumi3s.rcdamagecore;
 
 import io.lumine.mythic.bukkit.events.MythicMechanicLoadEvent;
 import org.bukkit.event.EventHandler;
@@ -9,16 +9,16 @@ public class MythicListener implements Listener {
 
     //ばふのMM実行したときの処理。
     @EventHandler
-    public void onLoad(MythicMechanicLoadEvent e){
+    public void onLoad(MythicMechanicLoadEvent e) {
         String s = e.getMechanicName();
-        if(s.equalsIgnoreCase("rcbuff")){
+        if (s.equalsIgnoreCase("rcbuff")) {
             e.register(new RcBuff(e.getConfig()));
         }
     }
 
     //はいったときりせっと。
     @EventHandler
-    public void onJoind(PlayerJoinEvent e){
+    public void onJoind(PlayerJoinEvent e) {
         RcBuff.map.remove(e.getPlayer().getUniqueId());
     }
 }

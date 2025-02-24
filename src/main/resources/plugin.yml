@@ -1,7 +1,7 @@
-name: Rc_damage_math
+name: RcDamageCore
 version: '${project.version}'
-main: takumi3s.rc_damage_math.Rc_damage_math
-api-version: 1.17
+main: takumi3s.rcdamagecore.RcDamageCore
+api-version: 1.21
 depend:
   - ProtocolLib
   - MythicMobs
