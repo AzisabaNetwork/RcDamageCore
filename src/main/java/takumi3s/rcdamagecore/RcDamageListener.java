@@ -39,17 +39,13 @@ public class RcDamageListener implements Listener {
     public void onDamaged(MythicDamageEvent e) {
         // ダメージを与えた人のデータ取得
         double attack = 0;
-        String mmType = "none";
+        String mmType = e.getDamageMetadata().getElement();
 
         var abstractDamager = e.getCaster().getEntity();
 
         if (abstractDamager instanceof LivingEntity damager) {
             // 攻撃力
             attack = AttributeUtil.getOrZero(damager, Attribute.GENERIC_ATTACK_DAMAGE);
-            EntityEquipment equipment = damager.getEquipment();
-            if(equipment != null) {
-                mmType = e.getDamageMetadata().getElement();
-            }
         }
 
         double damage = e.getDamage();
