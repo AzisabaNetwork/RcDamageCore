@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
-public class ItemTypeUtil {
+public class ItemDataUtil {
     public static int extractTypeData(@NotNull NamespacedKey key, @Nullable ItemStack stack) {
         if(stack != null && stack.hasItemMeta()) {
             return stack.getItemMeta()

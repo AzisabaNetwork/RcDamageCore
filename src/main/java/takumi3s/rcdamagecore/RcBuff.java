@@ -12,7 +12,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
-import takumi3s.rcdamagecore.util.ItemTypeUtil;
+import takumi3s.rcdamagecore.util.ItemDataUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class RcBuff implements ISkillMechanic, ITargetedEntitySkill {
 
         EntityEquipment equipment = entity.getEquipment();
 
-        return ItemTypeUtil.extractTypeDataFromAll(
+        return ItemDataUtil.extractTypeDataFromAll(
                 key,
                 equipment.getHelmet(),
                 equipment.getChestplate(),
