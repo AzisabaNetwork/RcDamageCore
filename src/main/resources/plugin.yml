@@ -5,3 +5,9 @@ api-version: 1.21
 depend:
   - ProtocolLib
   - MythicMobs
+commands:
+  testcmd:
+    permisison: rcdamagecore.cmd.testcmd
+permissions:
+  rcdamagecore.cmd.testcmd:
+    default: op

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import takumi3s.rcdamagecore.command.TestCommand;
 
 
 public final class RcDamageCore extends JavaPlugin {
@@ -23,7 +24,7 @@ public final class RcDamageCore extends JavaPlugin {
 
         PluginManager pm = getServer().getPluginManager();
 
-        pm.registerEvents(new RcDamageListener(), this);
+        pm.registerEvents(new RcDamageListener(getLogger()), this);
         //pm.registerEvents(new RcDamageViewer(),this);
         pm.registerEvents(new MythicListener(), this);
         pm.registerEvents(new MMPlaceHolder(), this);
@@ -32,6 +33,8 @@ public final class RcDamageCore extends JavaPlugin {
         if (e.callEvent()) {
             Bukkit.dispatchCommand(e.getSender(), e.getCommand());
         }
+
+        getCommand("testcmd").setExecutor(new TestCommand());
 
         getLogger().info("mm reloadしたよ！！！！！！！");
     }
