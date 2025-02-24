@@ -14,7 +14,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -34,37 +37,37 @@ public class RcBuff implements ISkillMechanic, ITargetedEntitySkill {
         amount = config.getInteger(new String[]{"amount", "a"});
     }
 
-    public static Integer armorBuff(UUID uuid, String type) {
-        Integer h = 0;
-        Integer c = 0;
-        Integer l = 0;
-        Integer b = 0;
-        if (Bukkit.getEntity(uuid) instanceof LivingEntity e) {
-            NamespacedKey nskey = new NamespacedKey("rc", type);
-            if (e.getEquipment() == null) return 0;
-            EntityEquipment equipment = e.getEquipment();
-            ItemStack helmet = equipment.getHelmet();
-            if (helmet != null && helmet.hasItemMeta() && helmet.getItemMeta().getPersistentDataContainer().has(nskey, PersistentDataType.INTEGER)) {
-                h = helmet.getItemMeta().getPersistentDataContainer().get(nskey, PersistentDataType.INTEGER);
-            }
-            ItemStack chest = equipment.getChestplate();
-            if (chest != null && chest.hasItemMeta() && chest.getItemMeta().getPersistentDataContainer().has(nskey, PersistentDataType.INTEGER)) {
-                c = chest.getItemMeta().getPersistentDataContainer().get(nskey, PersistentDataType.INTEGER);
-            }
-            ItemStack leg = equipment.getLeggings();
-            if (leg != null && leg.hasItemMeta() && leg.getItemMeta().getPersistentDataContainer().has(nskey, PersistentDataType.INTEGER)) {
-                l = leg.getItemMeta().getPersistentDataContainer().get(nskey, PersistentDataType.INTEGER);
-            }
-            ItemStack boots = equipment.getBoots();
-            if (boots != null && boots.hasItemMeta() && boots.getItemMeta().getPersistentDataContainer().has(nskey, PersistentDataType.INTEGER)) {
-                b = boots.getItemMeta().getPersistentDataContainer().get(nskey, PersistentDataType.INTEGER);
-            }
+    public static int armorBuff(UUID uuid, String type) {
+        NamespacedKey key = new NamespacedKey("rc", type);
 
-        }
-        return h + c + l + b;
+        if(!(Bukkit.getEntity(uuid) instanceof LivingEntity entity)) return 0;
+        if(entity.getEquipment() == null) return 0;
+
+        EntityEquipment equipment = entity.getEquipment();
+
+        return extractTypeDataFromAll(
+                key,
+                equipment.getHelmet(),
+                equipment.getChestplate(),
+                equipment.getLeggings(),
+                equipment.getBoots()
+        );
     }
 
-    //amountの量のtypeのバフをdulation時間する。
+    public static int extractTypeDataFromAll(@NotNull NamespacedKey key, @Nullable ItemStack ...stacks) {
+        return Arrays.stream(stacks).mapToInt(s -> extractTypeData(key, s)).sum();
+    }
+
+    public static int extractTypeData(@NotNull NamespacedKey key, @Nullable ItemStack stack) {
+        if(stack != null && stack.hasItemMeta()) {
+            return stack.getItemMeta()
+                    .getPersistentDataContainer()
+                    .getOrDefault(key, PersistentDataType.INTEGER, 0);
+        }
+        return 0;
+    }
+
+    //amountの量のtypeのバフをduration時間する。
     @Override
     public SkillResult castAtEntity(SkillMetadata skillMetadata, AbstractEntity abstractEntity) {
         try {
