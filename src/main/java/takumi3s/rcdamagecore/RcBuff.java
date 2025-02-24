@@ -12,6 +12,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
+import org.jetbrains.annotations.Nullable;
 import takumi3s.rcdamagecore.util.ItemDataUtil;
 
 import java.util.HashMap;
@@ -22,22 +23,22 @@ public class RcBuff implements ISkillMechanic, ITargetedEntitySkill {
 
     public static final Map<UUID, Map<String, Integer>> map = new HashMap<>();
     private final String type;
-    private final int dulation;
+    private final int duration;
     private final int amount;
 
 
     //MMのymlから呼び出し。
     public RcBuff(MythicLineConfig config) {
         type = config.getString(new String[]{"type", "t"}).toLowerCase();
-        dulation = config.getInteger(new String[]{"dulation", "d"});
+        duration = config.getInteger(new String[]{"dulation", "d"});
         amount = config.getInteger(new String[]{"amount", "a"});
     }
 
     public static int armorBuff(UUID uuid, String type) {
         NamespacedKey key = new NamespacedKey("rc", type);
 
-        if(!(Bukkit.getEntity(uuid) instanceof LivingEntity entity)) return 0;
-        if(entity.getEquipment() == null) return 0;
+        if (!(Bukkit.getEntity(uuid) instanceof LivingEntity entity)) return 0;
+        if (entity.getEquipment() == null) return 0;
 
         EntityEquipment equipment = entity.getEquipment();
 
@@ -56,35 +57,29 @@ public class RcBuff implements ISkillMechanic, ITargetedEntitySkill {
         try {
             Entity entity = BukkitAdapter.adapt(abstractEntity);
             UUID uuid = entity.getUniqueId();
-            int int1 = amount;
-            if (map.containsKey(uuid)) {
-                Map<String, Integer> map1 = map.get(uuid);
-                if (map1.containsKey(type)) {
-                    int1 += map1.get(type);
-                }
-                map1.put(type, int1);
-            } else {
-                Map<String, Integer> map2 = new HashMap<>();
-                map2.put(type, int1);
-                map.put(uuid, map2);
-            }
+
+            if (!map.containsKey(uuid)) map.put(uuid, new HashMap<>());
+            map.get(uuid).compute(type, (k, v) -> v == null ? amount : v + amount);
 
             Bukkit.getScheduler().runTaskLater(RcDamageCore.getInstance(), () -> {
                 Map<String, Integer> map1 = isDefined(uuid, type);
-                if (map1 != null) {
-                    map1.put(type, map1.get(type) - amount);
-                    if (map1.get(type) <= 0) {
-                        map.remove(uuid, map1);
-                    }
+                if (map1 == null) return;
+
+                map1.compute(type, (k, v) -> v == null ? 0 : v - amount);
+
+                if (map1.get(type) <= 0) {
+                    map.remove(uuid, map1);
                 }
-            }, dulation);
+            }, duration);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return SkillResult.SUCCESS;
     }
 
+    @Nullable
     public Map<String, Integer> isDefined(UUID uuid, String type) {
         if (map.containsKey(uuid)) {
             if (map.get(uuid).containsKey(type)) {
