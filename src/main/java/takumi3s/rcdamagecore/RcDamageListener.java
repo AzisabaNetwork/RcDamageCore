@@ -29,12 +29,6 @@ public class RcDamageListener implements Listener {
         this.logger = logger;
     }
 
-//    @EventHandler
-//    public void onMythicDamage(MythicDamageEvent e) {
-//        logger.info("Parsed damage meta: " + gson.toJson(e.getDamageMetadata()));
-//        logger.info(e.getDamageMetadata().toString());
-//    }
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamaged(MythicDamageEvent e) {
         // ダメージを与えた人のデータ取得
@@ -84,7 +78,7 @@ public class RcDamageListener implements Listener {
         double critDamage = 5 + RcBuff.armorBuff(uuid, "critdmg");
 
         // 全体へダメージ値を送信
-        Bukkit.broadcast(Component.text(String.format("Damage: %.2f (%s)", critDamage, mmType)));
+//        Bukkit.broadcast(Component.text(String.format("Damage: %.2f (%s)", critDamage, mmType)));
 
         // バフがある場合
         if (RcBuff.map.containsKey(uuid)) {
@@ -117,7 +111,6 @@ public class RcDamageListener implements Listener {
             return;
         }
 
-        e.setDamage(0.0);
         e.setDamage(finalDamage);
 
     }
