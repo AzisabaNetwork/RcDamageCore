@@ -1,4 +1,4 @@
-package takumi3s.rcdamagecore;
+package takumi3s.rcdamagecore.listener;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.potion.PotionEffectType;
+import takumi3s.rcdamagecore.skill.RcBuff;
 import takumi3s.rcdamagecore.util.ArmorDataUtil;
 import takumi3s.rcdamagecore.util.AttributeUtil;
 

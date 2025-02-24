@@ -1,9 +1,10 @@
-package takumi3s.rcdamagecore;
+package takumi3s.rcdamagecore.listener;
 
 import io.lumine.mythic.bukkit.events.MythicMechanicLoadEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import takumi3s.rcdamagecore.skill.RcBuff;
 
 public class MythicListener implements Listener {
 

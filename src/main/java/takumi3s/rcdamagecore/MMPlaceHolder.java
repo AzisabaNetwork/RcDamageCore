@@ -6,6 +6,7 @@ import io.lumine.mythic.bukkit.events.MythicReloadedEvent;
 import io.lumine.mythic.core.skills.placeholders.Placeholder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import takumi3s.rcdamagecore.skill.RcBuff;
 
 import java.util.UUID;
 

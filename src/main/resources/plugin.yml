@@ -1,7 +1,10 @@
 name: RcDamageCore
 version: '${project.version}'
 main: takumi3s.rcdamagecore.RcDamageCore
-api-version: 1.21
+api-version: '1.21'
+authors:
+  - takumi3s
+  - sysnote8
 depend:
   - ProtocolLib
   - MythicMobs

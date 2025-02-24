@@ -5,6 +5,8 @@ import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import takumi3s.rcdamagecore.command.TestCommand;
+import takumi3s.rcdamagecore.listener.MythicListener;
+import takumi3s.rcdamagecore.listener.RcDamageListener;
 
 
 public final class RcDamageCore extends JavaPlugin {

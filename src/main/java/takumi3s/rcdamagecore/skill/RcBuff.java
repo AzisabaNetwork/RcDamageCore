@@ -1,4 +1,4 @@
-package takumi3s.rcdamagecore;
+package takumi3s.rcdamagecore.skill;
 
 import io.lumine.mythic.api.adapters.AbstractEntity;
 import io.lumine.mythic.api.config.MythicLineConfig;
@@ -13,6 +13,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.jetbrains.annotations.Nullable;
+import takumi3s.rcdamagecore.RcDamageCore;
 import takumi3s.rcdamagecore.util.ItemDataUtil;
 
 import java.util.HashMap;
