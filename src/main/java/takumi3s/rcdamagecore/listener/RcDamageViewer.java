@@ -34,11 +34,7 @@ public class RcDamageViewer implements Listener {
         PacketContainer pc2 = pm.createPacket(PacketType.Play.Server.ENTITY_METADATA);
 
 
-        try {
-            pm.sendServerPacket(player, pc);
-            pm.sendServerPacket(player, pc2);
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-        }
+        pm.sendServerPacket(player, pc);
+        pm.sendServerPacket(player, pc2);
     }
 }
