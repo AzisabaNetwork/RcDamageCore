@@ -8,4 +8,3 @@ loreeditor-api = "1.3.0"
 protocollib = { module = "com.comphenix.protocol:ProtocolLib", version.ref = "protocollib" }
 mythic-dist = { module = "io.lumine:Mythic-Dist", version.ref = "mythic-dist" }
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper-api" }
-loreeditor-api = { module = "net.azisaba.loreeditor:api", version.ref = "loreeditor-api" }
