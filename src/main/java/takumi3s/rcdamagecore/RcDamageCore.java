@@ -1,16 +1,19 @@
 package takumi3s.rcdamagecore;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
+import net.azisaba.loreeditor.api.event.EventBus;
+import net.azisaba.loreeditor.api.event.ItemEvent;
+import net.azisaba.loreeditor.libs.net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import takumi3s.rcdamagecore.command.TestCommand;
 import takumi3s.rcdamagecore.listener.LevelingListener;
-import takumi3s.rcdamagecore.listener.LoreApplyListener;
 import takumi3s.rcdamagecore.listener.MythicListener;
 import takumi3s.rcdamagecore.listener.RcDamageListener;
+import takumi3s.rcdamagecore.util.LevelUtil;
 
 
 public final class RcDamageCore extends JavaPlugin {
@@ -47,10 +50,13 @@ public final class RcDamageCore extends JavaPlugin {
 
         getLogger().info("mm reloadしたよ！！！！！！！");
 
-        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        // TODO: fix this lore level.
-        protocolManager.addPacketListener(new LoreApplyListener(this));
-//        protocolManager.addPacketListener(new LevelingListener(this));
+        EventBus.INSTANCE.register(this, ItemEvent.class, 0, event -> {
+            ItemStack stack = event.getBukkitItem();
+            int level = stack.getPersistentDataContainer().getOrDefault(LevelUtil.LEVEL, PersistentDataType.INTEGER, -1);
+            if(level > 0) {
+                event.addLore(Component.text("武器レベル: " + level));
+            }
+        });
     }
 
     @Override

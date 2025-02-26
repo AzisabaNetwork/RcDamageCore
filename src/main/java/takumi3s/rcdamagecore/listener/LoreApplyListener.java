@@ -8,21 +8,16 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import io.papermc.paper.persistence.PersistentDataContainerView;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
 import takumi3s.rcdamagecore.util.LevelUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoreApplyListener extends PacketAdapter {
-    public static final String LEVEL_PREFIX = "武器レベル: ";
-
     public LoreApplyListener(Plugin plugin) {
         super(
                 plugin,
@@ -40,7 +35,18 @@ public class LoreApplyListener extends PacketAdapter {
             for (int i = 0; i < sm.size(); i++) {
                 if (sm.getValues().get(i) != null && sm.getValues().get(i).getType() != Material.AIR) {
                     ItemStack item = sm.getValues().get(i);
-                    addLevelLore(item);
+                    PersistentDataContainerView pdc = item.getPersistentDataContainer();
+                    if (pdc.has(LevelUtil.LEVEL)) {
+                        int level = pdc.getOrDefault(LevelUtil.LEVEL, PersistentDataType.INTEGER, -1);
+                        if (level <= 0) {
+                            continue;
+                        }
+
+                        List<Component> loreList = item.lore();
+                        if (loreList == null) loreList = new ArrayList<>();
+                        loreList.add(Component.text("武器レベル: " + level));
+                        item.lore(loreList);
+                    }
                 }
             }
             event.setPacket(packet);
@@ -53,52 +59,23 @@ public class LoreApplyListener extends PacketAdapter {
                 if (items == null) continue;
 
                 for (ItemStack item : items) {
-                    addLevelLore(item);
+                    if(item == null) continue;
+
+                    PersistentDataContainerView pdc = item.getPersistentDataContainer();
+                    if (pdc.has(LevelUtil.LEVEL)) {
+                        int level = pdc.getOrDefault(LevelUtil.LEVEL, PersistentDataType.INTEGER, -1);
+                        if (level <= 0) {
+                            continue;
+                        }
+
+                        List<Component> loreList = item.lore();
+                        if (loreList == null) loreList = new ArrayList<>();
+                        loreList.add(Component.text("武器レベル: " + level));
+                        item.lore(loreList);
+                    }
                 }
             }
             event.setPacket(packet);
         }
-    }
-
-    private ItemStack addLevelLore(@NotNull ItemStack originalStack) {
-        ItemStack targetStack = originalStack.clone();
-
-        PersistentDataContainerView pdc = targetStack.getPersistentDataContainer();
-        if (pdc.has(LevelUtil.LEVEL)) {
-            int level = pdc.getOrDefault(LevelUtil.LEVEL, PersistentDataType.INTEGER, -1);
-            if (level <= 0) {
-                return originalStack;
-            }
-
-            List<Component> loreList = targetStack.lore();
-            Component newComponent = Component.text(LEVEL_PREFIX + level);
-
-            // flag to check level lore appended.
-            boolean appended = false;
-
-            // if lore is not available
-            if (loreList == null) {
-                loreList = new ArrayList<>();
-            }
-
-            // try to find level lore
-            for (int i = 0; i < loreList.size(); i++) {
-                var comp = loreList.get(i);
-                if (PlainTextComponentSerializer.plainText().serialize(comp).startsWith(LEVEL_PREFIX)) {
-                    // set new level lore
-                    loreList.set(i, newComponent);
-                    appended = true;
-                    break;
-                }
-            }
-
-            if(!appended){
-                // if no level lore appended, add new level lore at last.
-                loreList.add(newComponent);
-            }
-
-            targetStack.lore(loreList);
-        }
-        return targetStack;
     }
 }
