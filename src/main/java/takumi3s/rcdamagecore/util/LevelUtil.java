@@ -10,14 +10,14 @@ public class LevelUtil {
     public static final UsefulKey<Integer> MAX_LVL = new UsefulKey<>(RDCVariables.ID, "max_level", PersistentDataType.INTEGER, 0);
 
     /**
-     * @param itemPdc {@link PersistentDataContainer} for target item stack
+     * @param itemPdc     {@link PersistentDataContainer} for target item stack
      * @param playerLevel level of player
      * @return level difference amount
      */
     public static int doItemLeveling(PersistentDataContainer itemPdc, int playerLevel) {
         // check item max level and is able to level up
         int itemMaxLevel = MAX_LVL.getOrDefault(itemPdc);
-        if(itemMaxLevel == 0) {
+        if (itemMaxLevel == 0) {
             return 0;
         }
 
@@ -40,7 +40,7 @@ public class LevelUtil {
         // get lowest maximum value
         int maxLevel = Math.min(itemMaxLevel, playerLevel);
 
-        if(maxLevel < nowLevel) {
+        if (maxLevel < nowLevel) {
             // if over max level
             return tryItemLevelDown(nowExp, nowLevel, maxLevel);
         } else {
@@ -62,10 +62,10 @@ public class LevelUtil {
             int requireExp = calcRequireExp(nowLevel + 1);
 
             // if nowExp is not enough to level up, exit while loop
-            if(nowExp < requireExp) break;
+            if (nowExp < requireExp) break;
 
             // if reaches max level, skip incrementation.
-            if(nowLevel == maxLevel) break;
+            if (nowLevel == maxLevel) break;
 
             // if it can level up
             nowExp -= requireExp;
@@ -108,6 +108,44 @@ public class LevelUtil {
 
     public static int calcRequireExp(int targetLevel) {
         return targetLevel * 2;
+    }
+
+    public static LevelData itemLeveling(
+            int nowExp,
+            int nowLevel,
+            int maxLevel
+    ) {
+        int count = 0;
+
+        if(nowLevel > maxLevel) {
+            // decrement loop
+            while (nowLevel > maxLevel) {
+                nowExp += calcRequireExp(nowLevel);
+                nowLevel--;
+                count--;
+            }
+        } else if(nowLevel < maxLevel) {
+            // increment loop
+            while (true) {
+                // calc require exp for next level
+                int requireExp = calcRequireExp(nowLevel + 1);
+
+                // if nowExp is not enough to level up, exit while loop
+                if (nowExp < requireExp) break;
+
+                // if reaches max level, skip incrementation.
+                if (nowLevel == maxLevel) break;
+
+                // if it can level up
+                nowExp -= requireExp;
+                nowLevel++;
+
+                // counter increment
+                count++;
+            }
+        }
+
+        return new LevelData(nowExp, nowLevel, count);
     }
 
 //    public static int getExp(PersistentDataContainerView dataContainer) {
