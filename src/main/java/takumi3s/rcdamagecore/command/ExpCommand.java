@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import takumi3s.rcdamagecore.RcDamageCore;
+import takumi3s.rcdamagecore.config.RDCConfig;
 import takumi3s.rcdamagecore.util.LevelUtil;
 
 @CommandAlias("rcexp")
@@ -22,6 +23,15 @@ public class ExpCommand extends BaseCommand {
     @Default
     public void onDefault(CommandSender sender) {
         sender.sendMessage("fmm... there is nothing...");
+    }
+
+    @Subcommand("reload-config")
+    @CommandPermission("rcdamagecore.cmd.rcexp.reload")
+    public void reloadConfig(CommandSender sender) {
+        sender.sendMessage("Reloading now...");
+        plugin.reloadConfig();
+        RDCConfig.loadConfig(plugin.getConfig());
+        sender.sendMessage("Reload completed.");
     }
 
     @Subcommand("give")
@@ -45,9 +55,10 @@ public class ExpCommand extends BaseCommand {
 
         int nowExp = LevelUtil.EXP.getOrDefault(dataContainer);
         int nowLevel = LevelUtil.LVL.getOrDefault(dataContainer);
+        int maxLevel = Math.min(MAX_LEVEL, RDCConfig.playerMaxLevel);
         int count = 0;
 
-        if (nowLevel < MAX_LEVEL) {
+        if (nowLevel < maxLevel) {
             // increment loop
             while (true) {
                 // calc require exp for next level
@@ -57,7 +68,7 @@ public class ExpCommand extends BaseCommand {
                 if (nowExp < requireExp) break;
 
                 // if reaches max level, skip incrementation.
-                if (nowLevel == MAX_LEVEL) break;
+                if (nowLevel == maxLevel) break;
 
                 // if it can level up
                 nowExp -= requireExp;
@@ -71,7 +82,7 @@ public class ExpCommand extends BaseCommand {
         LevelUtil.EXP.set(dataContainer, nowExp);
         LevelUtil.LVL.set(dataContainer, nowLevel);
 
-        player.sendMessage(Component.text("Updated! difference: " + count));
+//        player.sendMessage(Component.text("Updated! difference: " + count));
 
         sender.sendMessage(Component.text(String.format("%sの経験値を%d増やしました。", playerName, amount)));
     }

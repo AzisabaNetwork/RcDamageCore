@@ -11,10 +11,13 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import takumi3s.rcdamagecore.command.ExpCommand;
 import takumi3s.rcdamagecore.command.TestCommand;
+import takumi3s.rcdamagecore.config.RDCConfig;
 import takumi3s.rcdamagecore.listener.LevelingListener;
 import takumi3s.rcdamagecore.listener.MythicListener;
 import takumi3s.rcdamagecore.listener.RcDamageListener;
 import takumi3s.rcdamagecore.util.LevelUtil;
+
+import java.util.Objects;
 
 
 public final class RcDamageCore extends JavaPlugin {
@@ -60,6 +63,8 @@ public final class RcDamageCore extends JavaPlugin {
                 event.addLore(Component.text("武器レベル: " + level));
             }
         });
+        saveDefaultConfig();
+        RDCConfig.loadConfig(Objects.requireNonNull(getConfig().getConfigurationSection("leveling")));
     }
 
     @Override
