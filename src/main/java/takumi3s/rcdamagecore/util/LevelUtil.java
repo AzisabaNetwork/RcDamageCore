@@ -36,7 +36,7 @@ public class LevelUtil {
         return result.levelChangeAmount();
     }
 
-    public static LevelData tryLeveling(int nowExp, int nowLevel, int itemMaxLevel, int playerLevel) {
+    private static LevelData tryLeveling(int nowExp, int nowLevel, int itemMaxLevel, int playerLevel) {
         // get lowest maximum value
         int maxLevel = Math.min(itemMaxLevel, playerLevel);
 
