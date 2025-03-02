@@ -27,24 +27,27 @@ public class LevelingListener implements Listener {
             ItemStack newStack = event.getCursor();
 
             // get maximum level and validate
-            int maxLevel = oldStack.getPersistentDataContainer().getOrDefault(LevelUtil.MAX_LEVEL, PersistentDataType.INTEGER, -1);
+//            int maxLevel = oldStack.getPersistentDataContainer().getOrDefault(LevelUtil.MAX_LEVEL, PersistentDataType.INTEGER, -1);
+            int maxLevel = LevelUtil.MAX_LVL.getOrDefault(oldStack.getPersistentDataContainer());
             if (maxLevel <= 0) {
                 // ignore item
                 return;
             }
 
-            boolean isLevelingItem = newStack.getPersistentDataContainer().getOrDefault(LevelUtil.IS_LEVELING_ITEM, PersistentDataType.BOOLEAN, false);
-            if (!isLevelingItem) {
-                // ignore item
-                return;
-            }
+//            boolean isLevelingItem = newStack.getPersistentDataContainer().getOrDefault(LevelUtil.IS_LEVELING_ITEM, PersistentDataType.BOOLEAN, false);
+//            boolean isLevelingItem = LevelUtil.IS_LVL_ITEM.getOrDefault(newStack.getPersistentDataContainer());
+//            if (!isLevelingItem) {
+//                // ignore item
+//                return;
+//            }
 
             // get now level
-            int nowLevel = oldStack.getPersistentDataContainer().getOrDefault(LevelUtil.LEVEL, PersistentDataType.INTEGER, 0);
+//            int nowLevel = oldStack.getPersistentDataContainer().getOrDefault(LevelUtil.LEVEL, PersistentDataType.INTEGER, 0);
 
             // edit metadata to increment level
             oldStack.editMeta(meta -> {
-                meta.getPersistentDataContainer().set(LevelUtil.LEVEL, PersistentDataType.INTEGER, Math.min(nowLevel + 1, maxLevel));
+                LevelUtil.MAX_LVL.computeWithDefault(meta.getPersistentDataContainer(), i -> Math.min(i + 1, maxLevel));
+//                meta.getPersistentDataContainer().set(LevelUtil.LEVEL, PersistentDataType.INTEGER, Math.min(nowLevel + 1, maxLevel));
             });
 
             event.setCursor(ItemStack.empty());
