@@ -25,7 +25,7 @@ public class MMPlaceHolder implements Listener {
     };
 
     @EventHandler
-    public static String setMMPlaceHolder(MythicReloadedEvent e) {
+    public static void setMMPlaceHolder(MythicReloadedEvent e) {
         PlaceholderManager pm = MythicBukkit.inst().getPlaceholderManager();
 
         String buff = "0";
@@ -33,10 +33,15 @@ public class MMPlaceHolder implements Listener {
             buff = phBuffer(type, pm, buff);
         }
 
-        return buff;
+//        pm.register("caster.rc.level", Placeholder.meta((meta, s) -> {
+//            meta.getTrigger().getItemMainHand();
+//        }));
+
+//        return buff;
     }
 
     public static String phBuffer(String type, PlaceholderManager pm, String buff) {
+        // Register placeholder's callback function
         pm.register("caster.buff." + type, Placeholder.meta((meta, s) -> {
             UUID uuid = meta.getTrigger().getUniqueId();
             if (RcBuff.map.containsKey(uuid) && RcBuff.map.get(uuid).containsKey(type)) {

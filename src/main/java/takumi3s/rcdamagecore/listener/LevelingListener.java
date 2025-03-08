@@ -48,14 +48,14 @@ public class LevelingListener implements Listener {
             }
 
             // get leveling amount and check is it leveling item
-            int expAmount = LevelUtil.LVL.getOrDefault(cursorStackPdcView);
+            int expAmount = LevelUtil.EXP.getOrDefault(cursorStackPdcView);
             if(expAmount == 0) {
                 return;
             }
 
             // get performer's level to get level limit
-            int playerLevel = LevelUtil.LVL.getOrDefault(player.getPersistentDataContainer());
-            int maxLevel = Math.min(itemMaxLevel, playerLevel);
+            int playerMaxLevel = LevelUtil.MAX_LVL.getOrDefault(player.getPersistentDataContainer());
+            int maxLevel = Math.min(itemMaxLevel, playerMaxLevel);
 
             // edit metadata to update level
             slotStack.editMeta(meta -> {
@@ -102,7 +102,7 @@ public class LevelingListener implements Listener {
                 LevelUtil.EXP.set(meta.getPersistentDataContainer(), nowExp);
                 LevelUtil.LVL.set(meta.getPersistentDataContainer(), nowLevel);
 
-//                player.sendMessage(Component.text("Updated! difference: " + count));
+                player.sendMessage(Component.text("Updated! difference: " + count));
 
                 if(cursorStack.getAmount() == 0) {
                     event.setCursor(ItemStack.empty());

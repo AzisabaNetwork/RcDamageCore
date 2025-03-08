@@ -14,7 +14,7 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(commandSender instanceof Player player) {
             player.getEquipment().getItemInMainHand().editMeta(meta -> {
-                LevelUtil.LVL.set(meta.getPersistentDataContainer(), 10);
+                LevelUtil.EXP.set(meta.getPersistentDataContainer(), 10);
                 LevelUtil.MAX_LVL.set(meta.getPersistentDataContainer(), 20);
             });
             commandSender.sendMessage(Component.text("Success.").color(NamedTextColor.GREEN));
