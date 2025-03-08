@@ -17,10 +17,11 @@ public class MMPlaceHolder implements Listener {
             "ice",
             "wind",
             "lightning",
-            "rekketu",
-            "syukusei",
+            "dark",
+            "photon",
             "critper",
-            "critdmg"
+            "critdmg",
+            "nocritdmg"
     };
 
     @EventHandler
