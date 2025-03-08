@@ -14,7 +14,7 @@ public class MMPlaceHolder implements Listener {
     private static final String[] types = new String[]{
             "none",
             "fire",
-            "ice",
+            "water",
             "wind",
             "lightning",
             "dark",
