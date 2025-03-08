@@ -18,6 +18,7 @@ import takumi3s.rcdamagecore.skill.RcBuff;
 import takumi3s.rcdamagecore.util.ArmorDataUtil;
 import takumi3s.rcdamagecore.util.AttributeUtil;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -77,6 +78,7 @@ public class RcDamageListener implements Listener {
         int critValue = (int) (Math.random() * 1000);
         int critPer = 10 + RcBuff.armorBuff(uuid, "critper");
         double critDamage = 5 + RcBuff.armorBuff(uuid, "critdmg");
+        double nocritDamage = 0;
 
         // 全体へダメージ値を送信
 //        Bukkit.broadcast(Component.text(String.format("Damage: %.2f (%s)", critDamage, mmType)));
@@ -95,11 +97,12 @@ public class RcDamageListener implements Listener {
         }
 
         //属性バフの計算
-        Bukkit.broadcast(Component.text("testtttt").clickEvent(ClickEvent.copyToClipboard(new Gson().toJson(MythicBukkit.inst().getItemManager().getItem(mmType).get()))));
+//        Bukkit.broadcast(Component.text("testtttt").clickEvent(ClickEvent.copyToClipboard(new Gson().toJson(MythicBukkit.inst().getItemManager().getItem(mmType).get()))));
         int buff = 0;
         if (RcBuff.map.containsKey(uuid)) {
-            if (RcBuff.map.containsKey(mmType)) {
-                buff = RcBuff.map.get(uuid).get(mmType);
+            Map<String, Integer> userMap = RcBuff.map.get(uuid);
+            if (userMap.containsKey(mmType)) {
+                buff = userMap.get(mmType);
                 damage = damage * (1 + ((double) buff / 1000));
             }
         }
