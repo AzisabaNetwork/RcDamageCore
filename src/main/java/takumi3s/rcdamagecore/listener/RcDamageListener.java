@@ -85,10 +85,13 @@ public class RcDamageListener implements Listener {
         if (RcBuff.map.containsKey(uuid)) {
             critPer += RcBuff.map.get(uuid).getOrDefault("critper", 0);
             critDamage += RcBuff.map.get(uuid).getOrDefault("critdmg", 0);
+            nocritDamage += RcBuff.map.get(uuid).getOrDefault("nocritdmg", 0);
         }
 
         if (critPer >= critValue) {
             damage = damage * (1 + (critDamage / 1000));
+        } else {
+            damage = damage * (1 + (nocritDamage / 1000));
         }
 
         //属性バフの計算
