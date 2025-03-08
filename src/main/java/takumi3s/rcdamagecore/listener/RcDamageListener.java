@@ -1,12 +1,6 @@
 package takumi3s.rcdamagecore.listener;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.bukkit.events.MythicDamageEvent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -24,7 +18,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 public class RcDamageListener implements Listener {
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private final Logger logger;
     public RcDamageListener(Logger logger) {
