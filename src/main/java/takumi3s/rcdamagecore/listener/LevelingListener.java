@@ -56,6 +56,7 @@ public class LevelingListener implements Listener {
             // get performer's level to get level limit
             int playerMaxLevel = LevelUtil.MAX_LVL.getOrDefault(player.getPersistentDataContainer());
             int maxLevel = Math.min(itemMaxLevel, playerMaxLevel);
+            player.sendMessage("Max level: " + maxLevel);
 
             // edit metadata to update level
             slotStack.editMeta(meta -> {
@@ -65,6 +66,7 @@ public class LevelingListener implements Listener {
 
                 while(slotStack.getAmount() > 0 && nowLevel != maxLevel) {
                     if(nowLevel < maxLevel){
+                        player.sendMessage("Increment!");
                         // add exp
                         nowExp += expAmount;
                         cursorStack.subtract();
@@ -88,6 +90,7 @@ public class LevelingListener implements Listener {
                             count++;
                         }
                     } else {
+                        player.sendMessage("Decrement!");
                         // decrement loop
                         while (nowLevel > maxLevel) {
                             nowExp += LevelUtil.calcRequireExp(nowLevel);

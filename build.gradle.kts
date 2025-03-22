@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     alias(libs.plugins.shadow)
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 repositories {
@@ -47,4 +48,8 @@ tasks.withType<Javadoc> {
 tasks.shadowJar {
     relocate("co.aikar.commands", "takumi3s.rcdamagecore.acf")
     relocate("co.aikar.locales", "takumi3s.rcdamagecore.locales")
+}
+
+tasks.runServer {
+    minecraftVersion("1.21.1")
 }
