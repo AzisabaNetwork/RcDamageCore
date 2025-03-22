@@ -6,6 +6,7 @@ import io.lumine.mythic.bukkit.events.MythicReloadedEvent
 import io.lumine.mythic.core.skills.placeholders.Placeholder
 import net.azisaba.rcdamagecore.mythic.MythicApi
 import net.azisaba.rcdamagecore.mythic.mechanics.RcBuffMechanic
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -13,13 +14,19 @@ import org.bukkit.event.Listener
 class MythicEventListener : Listener {
     @EventHandler
     fun onMythicReloaded(e: MythicReloadedEvent) {
-        val placeholderManager = MythicApi.placeholderManager
+        val pm = MythicApi.placeholderManager
         types.forEach {
-            placeholderManager.register(
+            pm.register(
                 "caster.buff.$it",
                 Placeholder.meta { meta, s ->
-                    // TODO: impl this
-                    return@meta ""
+                    val uuid = meta.trigger.uniqueId
+                    val buffMap = RcBuffMechanic.getBuffMap(uuid)
+                    if (buffMap.containsKey(it)) {
+                        return@meta buffMap[it].toString() +
+                            RcBuffMechanic.armorBuff(meta.trigger.asPlayer() as Player, it)
+                    } else {
+                        "0"
+                    }
                 },
             )
         }
