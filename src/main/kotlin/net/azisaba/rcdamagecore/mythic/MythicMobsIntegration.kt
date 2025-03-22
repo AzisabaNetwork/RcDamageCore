@@ -1,4 +1,4 @@
-package net.azisaba.rcdamagecore.integration
+package net.azisaba.rcdamagecore.mythic
 
 import io.lumine.mythic.bukkit.MythicBukkit
 
