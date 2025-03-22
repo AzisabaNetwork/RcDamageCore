@@ -4,6 +4,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import takumi3s.rcdamagecore.RDCVariables;
 
+//TODO: migrate this
 public class LevelUtil {
     public static final UsefulKey<Integer> EXP = new UsefulKey<>(RDCVariables.ID, "experience", PersistentDataType.INTEGER, 0);
     public static final UsefulKey<Integer> LVL = new UsefulKey<>(RDCVariables.ID, "level", PersistentDataType.INTEGER, 0);
