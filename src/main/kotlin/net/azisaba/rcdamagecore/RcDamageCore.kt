@@ -1,5 +1,6 @@
 package net.azisaba.rcdamagecore
 
+import net.azisaba.rcdamagecore.config.RDCConfig
 import net.azisaba.rcdamagecore.extension.registerEvents
 import net.azisaba.rcdamagecore.listener.MythicEventListener
 import net.azisaba.rcdamagecore.listener.PlayerEventListener
@@ -14,6 +15,8 @@ class RcDamageCore : JavaPlugin() {
             PlayerEventListener(),
             MythicEventListener(),
         )
+
+        RDCConfig.loadConfig(config.getConfigurationSection("leveling") ?: error("Failed to find leveling in $PL_NAME config."))
     }
 
     override fun onDisable() {
