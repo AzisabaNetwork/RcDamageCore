@@ -6,6 +6,7 @@ import net.azisaba.rcdamagecore.extension.isAvailable
 import net.azisaba.rcdamagecore.util.LevelCalculator
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -13,7 +14,7 @@ import org.bukkit.inventory.ItemStack
 import kotlin.math.min
 
 class InventoryListener : Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     fun onInventoryClick(event: InventoryClickEvent) {
         if (event.action != InventoryAction.SWAP_WITH_CURSOR &&
             event.action != InventoryAction.HOTBAR_SWAP
