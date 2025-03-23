@@ -7,6 +7,7 @@ import net.azisaba.rcdamagecore.command.TestCommand
 import net.azisaba.rcdamagecore.config.RDCConfig
 import net.azisaba.rcdamagecore.extension.registerEvents
 import net.azisaba.rcdamagecore.listener.InventoryListener
+import net.azisaba.rcdamagecore.listener.ItemCheckListener
 import net.azisaba.rcdamagecore.listener.LoreEventListener
 import net.azisaba.rcdamagecore.listener.MythicEventListener
 import net.azisaba.rcdamagecore.listener.PlayerEventListener
@@ -26,6 +27,7 @@ class RcDamageCore : JavaPlugin() {
             PlayerEventListener(),
             MythicEventListener(),
             InventoryListener(),
+            ItemCheckListener(),
         )
 
         LoreEventListener.register(this)
