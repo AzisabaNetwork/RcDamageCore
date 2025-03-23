@@ -1,6 +1,7 @@
 package net.azisaba.rcdamagecore.command
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
@@ -13,6 +14,7 @@ import takumi3s.rcdamagecore.util.LevelUtil
 import java.util.function.Function
 import kotlin.math.min
 
+@CommandAlias("rcexp")
 class ExpCommand(
     private val plugin: RcDamageCore,
 ) : BaseCommand() {
