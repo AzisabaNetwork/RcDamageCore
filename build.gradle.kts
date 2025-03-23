@@ -21,6 +21,7 @@ repositories {
     maven("https://repo.maven.apache.org/maven2/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.aikar.co/content/groups/aikar/")
+    maven("https://repo.codemc.io/repository/maven-releases/")
 }
 
 dependencies {
@@ -32,6 +33,7 @@ dependencies {
     compileOnly(libs.protocollib)
     compileOnly(libs.mythic.dist)
     compileOnly("net.azisaba.loreeditor:api:${libs.versions.loreeditor.api.get()}:all")
+    compileOnly(libs.packetevents)
 
     testImplementation(libs.bundles.kotest)
 }

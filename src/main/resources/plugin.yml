@@ -6,7 +6,8 @@ authors:
   - takumi3s
   - sysnote8
 depend:
-  - ProtocolLib
+#  - ProtocolLib
+  - PacketEvents
   - MythicMobs
   - LoreEditor
 commands:
