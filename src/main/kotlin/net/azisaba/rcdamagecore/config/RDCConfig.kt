@@ -3,8 +3,8 @@ package net.azisaba.rcdamagecore.config
 import org.bukkit.configuration.ConfigurationSection
 
 object RDCConfig {
-    private var playerMaxLevel: Int = 0
-    private var levelGapAdjustment: Int = 0
+    private var playerMaxLevel: Int = 10
+    private var levelGapAdjustment: Int = 80
 
     fun getPlayerMaxLevel(): Int = playerMaxLevel
 

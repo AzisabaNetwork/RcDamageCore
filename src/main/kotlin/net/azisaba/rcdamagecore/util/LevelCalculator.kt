@@ -15,7 +15,7 @@ object LevelCalculator {
         maxLevel: Int,
     ): Int {
         // basic exp calc
-        var requireExp = (targetLevel - 1) * 1000
+        var requireExp = targetLevel * 1000
 
         if (maxLevel - targetLevel >= 100) {
             // 必要経験値量を下げる処理
