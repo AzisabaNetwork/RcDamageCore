@@ -54,7 +54,7 @@ object LevelCalculator {
             // Level up challenge
             while (true) {
                 val nextLevelExp = getLevelExp(level + 1, maxLevel)
-                if (nextLevelExp > exp) break
+                if (nextLevelExp > exp || level + 1 > maxLevel) break
                 exp -= nextLevelExp
                 level++
             }
