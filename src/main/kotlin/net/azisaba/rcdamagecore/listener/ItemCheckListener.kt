@@ -1,6 +1,7 @@
 package net.azisaba.rcdamagecore.listener
 
 import io.lumine.mythic.bukkit.utils.events.extra.ArmorEquipEvent
+import io.papermc.paper.event.player.PlayerArmSwingEvent
 import net.azisaba.rcdamagecore.extension.checkAllItemLevel
 import net.azisaba.rcdamagecore.extension.checkItemLevel
 import net.azisaba.rcdamagecore.extension.getHandsAsArray
@@ -56,5 +57,12 @@ class ItemCheckListener : Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     fun onPlayerJoin(e: PlayerJoinEvent) {
         e.player.inventory.checkAllItemLevel()
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    fun onArmSwing(e: PlayerArmSwingEvent) {
+        e.player.equipment
+            .getHandsAsArray()
+            .forEach { it.checkItemLevel(e.player) }
     }
 }

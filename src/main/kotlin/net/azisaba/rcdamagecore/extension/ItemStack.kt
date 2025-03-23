@@ -9,14 +9,16 @@ fun ItemStack?.isAvailable() = this != null && hasItemMeta()
 
 fun ItemStack.checkItemLevel(owner: Player): ItemStack {
     val exp = ItemData.EXP.get(persistentDataContainer)
+    val level = ItemData.LEVEL.get(persistentDataContainer)
+    val playerLevel = ItemData.LEVEL.get(owner.persistentDataContainer)
     val nextRequire = ItemData.EXP_NEXT.get(persistentDataContainer)
-    if (exp >= nextRequire) {
+    if (exp >= nextRequire || level > playerLevel) {
         LevelCalculator
             .doItemLeveling(
                 exp,
-                ItemData.LEVEL.get(persistentDataContainer),
+                level,
                 ItemData.MAX_LEVEL.get(persistentDataContainer),
-                ItemData.LEVEL.get(owner.persistentDataContainer),
+                playerLevel,
             ).also {
                 editMeta { meta ->
                     ItemData.EXP.set(meta.persistentDataContainer, it.exp)
