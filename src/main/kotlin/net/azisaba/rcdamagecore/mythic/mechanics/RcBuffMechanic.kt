@@ -21,7 +21,13 @@ class RcBuffMechanic(
     config: MythicLineConfig,
 ) : ISkillMechanic,
     ITargetedEntitySkill {
-    val type: String = config.getStr("type", "t").lowercase()
+    val type: String =
+        (
+            config.getStr(
+                "type",
+                "t",
+            ) ?: error("Failed to get type data from ${config.line} in ${config.fileName}")
+        ).lowercase()
     val duration: Int = config.getInt("duration", "d")
     val amount: Int = config.getInt("amount", "a")
 
