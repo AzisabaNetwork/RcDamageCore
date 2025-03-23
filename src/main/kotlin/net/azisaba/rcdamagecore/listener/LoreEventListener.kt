@@ -4,6 +4,7 @@ import net.azisaba.loreeditor.api.event.EventBus
 import net.azisaba.loreeditor.api.event.ItemEvent
 import net.azisaba.loreeditor.libs.net.kyori.adventure.text.Component
 import net.azisaba.rcdamagecore.RcDamageCore
+import net.azisaba.rcdamagecore.data.ItemData
 import java.util.function.Consumer
 
 object LoreEventListener {
@@ -14,7 +15,7 @@ object LoreEventListener {
             0,
             Consumer { event: ItemEvent ->
                 val stack = event.bukkitItem
-                val level = LevelUtil.LVL.getOrDefault(stack.persistentDataContainer)
+                val level = ItemData.LEVEL.get(stack.persistentDataContainer)
                 if (level > 0) {
                     event.addLore(Component.text("武器レベル: $level"))
                 }
