@@ -6,17 +6,16 @@ import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Subcommand
+import net.azisaba.rcdamagecore.config.RDCConfig
 import net.kyori.adventure.text.Component
 import org.bukkit.command.CommandSender
-import takumi3s.rcdamagecore.RcDamageCore
-import takumi3s.rcdamagecore.config.RDCConfig
 import takumi3s.rcdamagecore.util.LevelUtil
 import java.util.function.Function
 import kotlin.math.min
 
 @CommandAlias("rcexp")
 class ExpCommand(
-    private val plugin: RcDamageCore,
+    private val plugin: net.azisaba.rcdamagecore.RcDamageCore,
 ) : BaseCommand() {
     @Default
     fun onDefault(sender: CommandSender) {
@@ -57,7 +56,7 @@ class ExpCommand(
 
         var nowExp = LevelUtil.EXP.getOrDefault(dataContainer)
         var nowLevel = LevelUtil.LVL.getOrDefault(dataContainer)
-        val maxLevel = min(MAX_LEVEL.toDouble(), RDCConfig.playerMaxLevel.toDouble()).toInt()
+        val maxLevel: Int = min(MAX_LEVEL, RDCConfig.getPlayerMaxLevel())
         var count = 0
 
         if (nowLevel < maxLevel) {

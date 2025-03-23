@@ -1,5 +1,8 @@
 package net.azisaba.rcdamagecore
 
+import co.aikar.commands.PaperCommandManager
+import net.azisaba.rcdamagecore.command.ExpCommand
+import net.azisaba.rcdamagecore.command.TestCommand
 import net.azisaba.rcdamagecore.config.RDCConfig
 import net.azisaba.rcdamagecore.extension.registerEvents
 import net.azisaba.rcdamagecore.listener.MythicEventListener
@@ -7,21 +10,36 @@ import net.azisaba.rcdamagecore.listener.PlayerEventListener
 import org.bukkit.plugin.java.JavaPlugin
 
 class RcDamageCore : JavaPlugin() {
+    lateinit var commandManager: PaperCommandManager
+
     override fun onEnable() {
-        instance = this
-        // notify enable sequence completed.
-        logger.info("$PL_NAME was enabled!")
+        // load config
+        RDCConfig.loadConfig(config.getConfigurationSection("leveling") ?: error("Failed to find leveling in $PL_NAME config."))
+
+        // register event listeners
         registerEvents(
             PlayerEventListener(),
             MythicEventListener(),
         )
 
-        RDCConfig.loadConfig(config.getConfigurationSection("leveling") ?: error("Failed to find leveling in $PL_NAME config."))
+        commandManager = PaperCommandManager(this)
+        commandManager.registerCommand(ExpCommand(this))
+        commandManager.registerCommand(TestCommand())
+
+        // notify enable sequence completed.
+        logger.info("$PL_NAME was enabled!")
+
+        // set default instance = initialization succeeded
+        instance = this
     }
 
     override fun onDisable() {
-        instance = null
-        logger.info("See you!")
+        if (instance != null) {
+            instance = null
+            commandManager.unregisterCommands()
+
+            logger.info("See you!")
+        }
     }
 
     companion object {
