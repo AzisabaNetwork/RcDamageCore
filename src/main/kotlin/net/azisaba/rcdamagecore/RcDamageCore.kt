@@ -1,13 +1,19 @@
 package net.azisaba.rcdamagecore
 
 import co.aikar.commands.PaperCommandManager
+import io.lumine.mythic.bukkit.utils.Schedulers
 import net.azisaba.rcdamagecore.command.ExpCommand
 import net.azisaba.rcdamagecore.command.TestCommand
 import net.azisaba.rcdamagecore.config.RDCConfig
 import net.azisaba.rcdamagecore.extension.registerEvents
+import net.azisaba.rcdamagecore.listener.InventoryListener
+import net.azisaba.rcdamagecore.listener.LoreEventListener
 import net.azisaba.rcdamagecore.listener.MythicEventListener
 import net.azisaba.rcdamagecore.listener.PlayerEventListener
+import org.bukkit.Bukkit
+import org.bukkit.event.server.ServerCommandEvent
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.concurrent.TimeUnit
 
 class RcDamageCore : JavaPlugin() {
     lateinit var commandManager: PaperCommandManager
@@ -20,7 +26,19 @@ class RcDamageCore : JavaPlugin() {
         registerEvents(
             PlayerEventListener(),
             MythicEventListener(),
+            InventoryListener(),
         )
+
+        LoreEventListener.register(this)
+
+        Schedulers.async().runLater({
+            ServerCommandEvent(Bukkit.getConsoleSender(), "mythicmobs reload -a").apply {
+                if (callEvent()) {
+                    Bukkit.dispatchCommand(sender, command)
+                    slF4JLogger.info("MythicMobsを再読み込みしました。")
+                }
+            }
+        }, 5, TimeUnit.SECONDS)
 
         commandManager = PaperCommandManager(this)
         commandManager.registerCommand(ExpCommand(this))

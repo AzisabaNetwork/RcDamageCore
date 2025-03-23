@@ -1,10 +1,11 @@
 package net.azisaba.rcdamagecore.extension
 
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.EntityEquipment
 import org.bukkit.persistence.PersistentDataType
 
-fun EntityEquipment.getArmorStackAsArray() =
+fun EntityEquipment.getArmorsAsArray() =
     arrayOf(
         helmet,
         chestplate,
@@ -13,7 +14,7 @@ fun EntityEquipment.getArmorStackAsArray() =
     ).removeNulls()
 
 fun EntityEquipment.extractTypeDataFromAll(key: NamespacedKey): Int =
-    getArmorStackAsArray()
+    getArmorsAsArray()
         .map {
             if (it != null && it.hasItemMeta()) {
                 it.itemMeta
@@ -23,3 +24,5 @@ fun EntityEquipment.extractTypeDataFromAll(key: NamespacedKey): Int =
                 0
             }
         }.sum()
+
+fun EntityEquipment.getProtectionValueFromAll(): Int = getArmorsAsArray().sumOf { it.getEnchantmentLevel(Enchantment.PROTECTION) }

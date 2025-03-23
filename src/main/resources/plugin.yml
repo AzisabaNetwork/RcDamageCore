@@ -1,6 +1,6 @@
 name: RcDamageCore
 version: '${version}'
-main: takumi3s.rcdamagecore.RcDamageCore
+main: net.azisaba.rcdamagecore.RcDamageCore
 api-version: '1.21'
 authors:
   - takumi3s

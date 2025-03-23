@@ -7,6 +7,7 @@ import kotlin.math.min
 data class LevelInfo(
     val exp: Int,
     val level: Int,
+    val changeAmount: Int,
 )
 
 object LevelCalculator {
@@ -38,17 +39,20 @@ object LevelCalculator {
             return LevelInfo(
                 currentExp,
                 currentLevel,
+                0,
             )
         }
 
         var exp = currentExp
         var level = currentLevel
+        var changes = 0
 
         if (currentLevel > maxLevel) {
             // Level down
             while (level > maxLevel) {
                 exp += getLevelExp(level, maxLevel)
                 level--
+                changes--
             }
         } else {
             // Level up challenge
@@ -57,12 +61,14 @@ object LevelCalculator {
                 if (nextLevelExp > exp || level + 1 > maxLevel) break
                 exp -= nextLevelExp
                 level++
+                changes++
             }
         }
 
         return LevelInfo(
             exp,
             level,
+            changes,
         )
     }
 

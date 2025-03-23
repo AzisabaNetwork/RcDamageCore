@@ -9,7 +9,6 @@ import co.aikar.commands.annotation.Subcommand
 import net.azisaba.rcdamagecore.config.RDCConfig
 import net.kyori.adventure.text.Component
 import org.bukkit.command.CommandSender
-import takumi3s.rcdamagecore.util.LevelUtil
 import java.util.function.Function
 import kotlin.math.min
 
