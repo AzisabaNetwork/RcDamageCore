@@ -1,2 +1,3 @@
 leveling:
   playerMaxLevel: 10
+  levelGapAdjustment: 80
