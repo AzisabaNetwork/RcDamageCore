@@ -49,9 +49,6 @@ class MythicEventListener : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onDamaged(e: MythicDamageEvent) {
-        // ダメージを与えた人のデータ取得
-        var attack = 0.0
-
         @Suppress("DEPRECATION")
         val mmType = e.damageMetadata.element
 
@@ -59,8 +56,8 @@ class MythicEventListener : Listener {
 
         if (damager !is LivingEntity) return
 
-        // 攻撃力
-        attack = damager.getAttributeValue(Attribute.GENERIC_ATTACK_DAMAGE)
+        // ダメージを与えた人の攻撃力
+        val attack = damager.getAttributeValue(Attribute.GENERIC_ATTACK_DAMAGE)
 
         var damage = e.damage
         val uuid = damager.uniqueId
@@ -96,7 +93,7 @@ class MythicEventListener : Listener {
         var critValue = (Math.random() * 1000).toInt()
         var critPer: Int = 10 + RcBuffMechanic.armorBuff(damager, "critper")
         var critDamage: Int = 5 + RcBuffMechanic.armorBuff(damager, "critdmg")
-        var nocritDamage = 0.0
+        var nocritDamage = 0
 
         // バフがある場合
         RcBuffMechanic.getBuffMap(uuid).apply {
@@ -105,24 +102,24 @@ class MythicEventListener : Listener {
             nocritDamage += getOrDefault("nocritdmg", 0)
         }
 
-        damage *=
-            if (critPer >= critValue) {
-                (1 + (critDamage / 1000))
-            } else {
-                (1 + (nocritDamage / 1000))
-            }.toDouble()
-
         // 属性バフの計算
-
         var buff = 0
         RcBuffMechanic.getBuffMap(uuid).apply {
             buff = get(mmType) ?: return@apply
-            damage *= (1 + (buff.toDouble() / 1000))
         }
 
+        val atkDefAdjustment = (1 + (attack - armor * (1 + armorToughness / 100)) / 100)
+        val elementBuffAdjustment = (1 + (buff / 1000))
+        val criticalValue: Int =
+            if (critPer >= critValue) {
+                critDamage
+            } else {
+                nocritDamage
+            }
+        val criticalAdjustment = (1 + (criticalValue))
+
         // 最終的なダメージの計算式
-        val finalDamage =
-            (damage * (1 - armorToughness * 0.01) * (1 - armorEc / 128) + (attack - 1 - armor)) * (1 - resistance / 10)
+        val finalDamage = damage * atkDefAdjustment * elementBuffAdjustment * criticalAdjustment
 
         if (finalDamage <= 0) {
             e.isCancelled = true
