@@ -13,6 +13,12 @@ fun EntityEquipment.getArmorsAsArray() =
         boots,
     ).removeNulls()
 
+fun EntityEquipment.getHandsAsArray() =
+    arrayOf(
+        itemInMainHand,
+        itemInOffHand,
+    ).removeNulls()
+
 fun EntityEquipment.extractTypeDataFromAll(key: NamespacedKey): Int =
     getArmorsAsArray()
         .map {
