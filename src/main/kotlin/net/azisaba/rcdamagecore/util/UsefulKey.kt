@@ -4,6 +4,7 @@ import io.papermc.paper.persistence.PersistentDataContainerView
 import org.bukkit.NamespacedKey
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
+import java.util.function.Function
 
 abstract class UsefulKey<C>(
     internal val key: NamespacedKey,
@@ -16,6 +17,13 @@ abstract class UsefulKey<C>(
         dataContainer: PersistentDataContainer,
         newValue: C,
     )
+
+    fun compute(
+        dataContainer: PersistentDataContainer,
+        applyFunc: Function<C, C>,
+    ) {
+        set(dataContainer, applyFunc.apply(get(dataContainer)))
+    }
 }
 
 class IntKey(
