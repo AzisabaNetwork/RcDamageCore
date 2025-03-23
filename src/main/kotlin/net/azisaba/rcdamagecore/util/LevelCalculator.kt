@@ -8,6 +8,7 @@ data class LevelInfo(
     val exp: Int,
     val level: Int,
     val changeAmount: Int,
+    val nextRequireExp: Int = -1,
 )
 
 object LevelCalculator {
@@ -69,6 +70,7 @@ object LevelCalculator {
             exp,
             level,
             changes,
+            getLevelExp(level + 1, maxLevel),
         )
     }
 
