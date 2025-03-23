@@ -56,6 +56,7 @@ object LevelCalculator {
                 val nextLevelExp = getLevelExp(level + 1, maxLevel)
                 if (nextLevelExp > exp) break
                 exp -= nextLevelExp
+                level++
             }
         }
 
