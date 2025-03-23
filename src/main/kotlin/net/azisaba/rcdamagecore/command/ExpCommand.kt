@@ -7,9 +7,10 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Subcommand
 import net.azisaba.rcdamagecore.config.RDCConfig
+import net.azisaba.rcdamagecore.data.ItemData
+import net.azisaba.rcdamagecore.util.LevelCalculator
 import net.kyori.adventure.text.Component
 import org.bukkit.command.CommandSender
-import java.util.function.Function
 import kotlin.math.min
 
 @CommandAlias("rcexp")
@@ -40,7 +41,7 @@ class ExpCommand(
     ) {
         val player = plugin.server.getPlayer(playerName)
         if (player == null) {
-            sender.sendMessage(Component.text("Player not found. mcid: $playerName"))
+            sender.sendMessage(Component.text("プレイヤーが見つかりませんでした。 mcid: $playerName"))
             return
         }
 
@@ -51,10 +52,10 @@ class ExpCommand(
 
         val dataContainer = player.persistentDataContainer
 
-        LevelUtil.EXP.computeWithDefault(dataContainer, Function { v: Int? -> v!! + amount })
+        ItemData.EXP.compute(dataContainer) { it + amount }
 
-        var nowExp = LevelUtil.EXP.getOrDefault(dataContainer)
-        var nowLevel = LevelUtil.LVL.getOrDefault(dataContainer)
+        var nowExp = ItemData.EXP.get(dataContainer)
+        var nowLevel = ItemData.LEVEL.get(dataContainer)
         val maxLevel: Int = min(MAX_LEVEL, RDCConfig.getPlayerMaxLevel())
         var count = 0
 
@@ -62,7 +63,7 @@ class ExpCommand(
             // increment loop
             while (true) {
                 // calc require exp for next level
-                val requireExp = LevelUtil.calcRequireExp(nowLevel + 1)
+                val requireExp = LevelCalculator.getLevelExp(nowLevel + 1, maxLevel)
 
                 // if nowExp is not enough to level up, exit while loop
                 if (nowExp < requireExp) break
@@ -79,10 +80,9 @@ class ExpCommand(
             }
         }
 
-        LevelUtil.EXP.set(dataContainer, nowExp)
-        LevelUtil.LVL.set(dataContainer, nowLevel)
+        ItemData.EXP.set(dataContainer, nowExp)
+        ItemData.LEVEL.set(dataContainer, nowLevel)
 
-        //        player.sendMessage(Component.text("Updated! difference: " + count));
         sender.sendMessage(Component.text(String.format("%sの経験値を%d増やしました。", playerName, amount)))
     }
 
