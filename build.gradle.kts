@@ -30,10 +30,8 @@ dependencies {
 
     implementation(libs.acf.paper)
 
-    compileOnly(libs.protocollib)
     compileOnly(libs.mythic.dist)
     compileOnly("net.azisaba.loreeditor:api:${libs.versions.loreeditor.api.get()}:all")
-    compileOnly(libs.packetevents)
 
     testImplementation(libs.bundles.kotest)
 }
