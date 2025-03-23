@@ -32,6 +32,8 @@ dependencies {
     compileOnly(libs.protocollib)
     compileOnly(libs.mythic.dist)
     compileOnly("net.azisaba.loreeditor:api:${libs.versions.loreeditor.api.get()}:all")
+
+    testImplementation(libs.bundles.kotest)
 }
 
 val targetJvmVersion = 21
@@ -70,4 +72,8 @@ tasks.shadowJar {
 
 tasks.runServer {
     minecraftVersion("1.21.1")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
