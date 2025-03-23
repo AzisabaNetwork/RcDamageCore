@@ -103,11 +103,12 @@ class MythicEventListener : Listener {
             nocritDamage += getOrDefault("nocritdmg", 0)
         }
 
-        if (critPer >= critValue) {
-            damage = damage * (1 + (critDamage / 1000))
-        } else {
-            damage = damage * (1 + (nocritDamage / 1000))
-        }
+        damage *=
+            if (critPer >= critValue) {
+                (1 + (critDamage / 1000))
+            } else {
+                (1 + (nocritDamage / 1000))
+            }.toDouble()
 
         // 属性バフの計算
 
