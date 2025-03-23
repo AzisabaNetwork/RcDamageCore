@@ -10,8 +10,7 @@ import net.azisaba.rcdamagecore.listener.InventoryListener
 import net.azisaba.rcdamagecore.listener.LoreEventListener
 import net.azisaba.rcdamagecore.listener.MythicEventListener
 import net.azisaba.rcdamagecore.listener.PlayerEventListener
-import org.bukkit.Bukkit
-import org.bukkit.event.server.ServerCommandEvent
+import net.azisaba.rcdamagecore.mythic.MythicApi
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.concurrent.TimeUnit
 
@@ -31,13 +30,9 @@ class RcDamageCore : JavaPlugin() {
 
         LoreEventListener.register(this)
 
-        Schedulers.async().runLater({
-            ServerCommandEvent(Bukkit.getConsoleSender(), "mythicmobs reload -a").apply {
-                if (callEvent()) {
-                    Bukkit.dispatchCommand(sender, command)
-                    slF4JLogger.info("MythicMobsを再読み込みしました。")
-                }
-            }
+        Schedulers.sync().runLater({
+            MythicApi.bootstrap.dispatchCommand("mythicmobs reload -a")
+            slF4JLogger.info("MythicMobsを再読み込みしました。")
         }, 5, TimeUnit.SECONDS)
 
         commandManager = PaperCommandManager(this)

@@ -1,6 +1,6 @@
 package net.azisaba.rcdamagecore.listener
 
-import net.azisaba.rcdamagecore.config.RDCConfig
+import net.azisaba.rcdamagecore.LOGGER
 import net.azisaba.rcdamagecore.data.ItemData
 import net.azisaba.rcdamagecore.extension.isAvailable
 import net.azisaba.rcdamagecore.util.LevelCalculator
@@ -15,7 +15,7 @@ import kotlin.math.min
 class InventoryListener : Listener {
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {
-        if (event.action != InventoryAction.SWAP_WITH_CURSOR ||
+        if (event.action != InventoryAction.SWAP_WITH_CURSOR &&
             event.action != InventoryAction.HOTBAR_SWAP
         ) {
             return
@@ -30,7 +30,13 @@ class InventoryListener : Listener {
         val expItemValue = ItemData.EXP_AMOUNT.get(cursorStack.persistentDataContainer)
 
         // get player data
-        val playerMaxLevel = RDCConfig.getPlayerMaxLevel()
+        val playerMaxLevel =
+            ItemData.LEVEL.get(player.persistentDataContainer).also {
+                if (it == 0) {
+                    LOGGER.warn("Ignore leveling for ${player.name}")
+                    return
+                }
+            }
 
         // actual max level for leveling item
         val maxLevel = min(itemMaxLevel, playerMaxLevel)
