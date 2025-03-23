@@ -69,6 +69,7 @@ class InventoryListener : Listener {
         player.sendMessage("Level Changed! amount: $changeAmount")
 
         if (cursorStack.amount == 0) {
+            @Suppress("DEPRECATION")
             event.setCursor(ItemStack.empty())
         }
 

@@ -51,6 +51,8 @@ class MythicEventListener : Listener {
     fun onDamaged(e: MythicDamageEvent) {
         // ダメージを与えた人のデータ取得
         var attack = 0.0
+
+        @Suppress("DEPRECATION")
         val mmType = e.damageMetadata.element
 
         val damager = e.caster.entity
