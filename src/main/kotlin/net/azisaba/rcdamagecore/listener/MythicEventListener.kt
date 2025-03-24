@@ -52,7 +52,7 @@ class MythicEventListener : Listener {
         @Suppress("DEPRECATION")
         val mmType = e.damageMetadata.element
 
-        val damager = e.caster.entity
+        val damager = e.caster.entity.bukkitEntity
 
         if (damager !is LivingEntity) return
 
@@ -68,7 +68,7 @@ class MythicEventListener : Listener {
         var armorEc = 0.0
         var resistance = 0.0
 
-        var damaged = e.target
+        val damaged = e.target.bukkitEntity
         if (damaged is LivingEntity) {
             armor = damaged.getAttributeValue(Attribute.GENERIC_ARMOR)
             armorToughness = damaged.getAttributeValue(Attribute.GENERIC_ARMOR_TOUGHNESS)
