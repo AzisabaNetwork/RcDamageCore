@@ -25,7 +25,7 @@ class MythicEventListener : Listener {
         val pm = MythicApi.placeholderManager
         types.forEach {
             pm.register(
-                "caster.buff.$it",
+                "rcbuff.$it",
                 Placeholder.meta { meta, s ->
                     val uuid = meta.trigger.uniqueId
                     val buffMap = RcBuffMechanic.getBuffMap(uuid)
