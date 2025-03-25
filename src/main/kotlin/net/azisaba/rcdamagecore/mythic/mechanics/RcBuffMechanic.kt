@@ -104,7 +104,7 @@ class RcBuffMechanic(
             player: LivingEntity,
             type: String,
         ): Int {
-            val key = NamespacedKey("rc", type)
+            val key = NamespacedKey("rcpve", type)
             (player.equipment ?: return 0).apply {
                 return extractTypeDataFromAll(key)
             }
