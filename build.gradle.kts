@@ -5,7 +5,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-group = "takumi3s.rcdamagecore"
+group = "net.azisaba.rcdamagecore"
 version = "0.1.0-SNAPSHOT"
 description = "RcDamageCore"
 java.sourceCompatibility = JavaVersion.VERSION_21
@@ -66,8 +66,9 @@ tasks.compileKotlin {
 }
 
 tasks.shadowJar {
-    relocate("co.aikar.commands", "takumi3s.rcdamagecore.acf")
-    relocate("co.aikar.locales", "takumi3s.rcdamagecore.locales")
+    minimize()
+    relocate("co.aikar.commands", "net.azisaba.rcdamagecore.libs.acf")
+    relocate("co.aikar.locales", "net.azisaba.rcdamagecore.libs.locales")
 }
 
 tasks.runServer {
