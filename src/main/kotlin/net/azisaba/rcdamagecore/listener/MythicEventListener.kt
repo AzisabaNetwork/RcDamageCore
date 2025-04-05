@@ -43,7 +43,7 @@ class MythicEventListener : Listener {
     @EventHandler
     fun onMechanicLoad(e: MythicMechanicLoadEvent) {
         when (e.mechanicName.lowercase()) {
-            "RcBuffMechanic" -> e.register(RcBuffMechanic(e.config))
+            "rcbuff" -> e.register(RcBuffMechanic(e.config))
         }
     }
 
